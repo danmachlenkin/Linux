@@ -48,3 +48,32 @@ Text Editors - Vim and emacs are popular text editors that are installed by defa
     Ctrl-r - redo your last action
 
 
+User Management:
+-sudo command - There is a file called the /etc/sudoers file, this file lists users who can run sudo
+-Usernames aren't really identifications for users. The system uses a user ID (UID) to identify a user.
+-To find out what users are mapped to what ID, look at the /etc/passwd file.
+-User's password - the password is not really stored in /etc/passwd file, it's usually stored in the /etc/shadow file.
+-User Management Tools:
+ Most enterprise environments are using management systems to manage users, accounts and passwords. 
+ However, on a single machine computer there are useful commands to run to manage users.
+ The commands are: sudo useradd bob / sudo userdel bob / passwd bob
+-Switch to the New User: After creating the new user, you need to switch to that user account. You can do this using the su (switch user) command followed by the username.
+
+Permissions:
+r: readable
+w: writable
+x: executable (basically an executable program)
+-: empty
+-Changing permissions can easily be done with the chmod command: (chmod u+x myfile / chmod 755 myfile)
+-Modify user ownership:
+
+$ sudo chown patty myfile
+This command will set the owner of myfile to patty.
+
+-Modify group ownership:
+
+$ sudo chgrp whales myfile
+This command will set the group of myfile to whales. 
+
+
+
