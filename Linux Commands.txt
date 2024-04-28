@@ -1,0 +1,50 @@
+Commands:
+pwd - print working directory
+cd - change directory
+ls - list directories: "ls -a" (list all), "ls -l" (list directories long), "ls -la" (list directories long and all)
+touch - create new empty file
+cat - display file's content (better for short files)
+less - view file's content in a page like display
+history - view your commands history
+cp - copy file to another directory
+mv - move file to another directory, also used for renaming files
+mkdir - make directory
+rm - is used to delete files and directories.(to remove directory use: "rm -r directory" or "rmdir directory")
+find - is used to find files in the OS
+--help - is used to get the description of a specific command to help you understand it's flags and arguments
+man - is used to get the manual of a certain command
+whatis - gives a description about what does a certain comman
+alias - you can give an alias to a repetative command to make it easier for you: "alias foobar='ls -la'"
+exit - to exit from the shell
+
+
+Text-fu:
+stdout, stdin,stderr (<, > ,2>)
+pipe - "|" - The pipe operator |, represented by a vertical bar, allows us to get the stdout of a command and make that the stdin to another process.
+tee - write the output of my command to two different streams
+env - information about the environment variables you currently have set
+cut - It extracts portions of text from a file
+paste - The paste command is similar to the cat command, it merges lines together in a file. 
+head - the head command will show you the first 10 lines in a file.
+tail -Similar to the head command, the tail command lets you see the last 10 lines of a file by default.
+expand and unexpand - To change your TABs to spaces, use the expand command and vice versa.
+join and split - to join/split files
+sort - for sorting lines
+tr - The tr (translate) command allows you to translate a set of characters into another set of characters.
+uniq - useful tool to remove the duplicates in a file.
+wc and nl - To count words/lines in a file.
+grep - It allows you to search files for characters that match a certain pattern.
+
+Advanced Text-Fu:
+regex (Regular Expressions) - Beginning of a line with ^ OR  End of a line with $ OR Matching any single character with . OR Bracket notation with []
+Text Editors - Vim and emacs are popular text editors that are installed by default on most Linux distributions and they both have their pros and cons:
+   Vim commands:
+    :w - writes or saves the file
+    :q - quit out of vim
+    :wq - write and then quit
+    :q! - quit out of vim without saving the file
+    ZZ - equivalent of :wq, but one character faster
+    u - undo your last action
+    Ctrl-r - redo your last action
+
+
