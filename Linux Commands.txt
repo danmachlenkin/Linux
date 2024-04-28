@@ -1,4 +1,4 @@
-Commands:
+*Commands:*
 pwd - print working directory
 cd - change directory
 ls - list directories: "ls -a" (list all), "ls -l" (list directories long), "ls -la" (list directories long and all)
@@ -18,7 +18,7 @@ alias - you can give an alias to a repetative command to make it easier for you:
 exit - to exit from the shell
 
 
-Text-fu:
+*Text-fu:*
 stdout, stdin,stderr (<, > ,2>)
 pipe - "|" - The pipe operator |, represented by a vertical bar, allows us to get the stdout of a command and make that the stdin to another process.
 tee - write the output of my command to two different streams
@@ -35,7 +35,7 @@ uniq - useful tool to remove the duplicates in a file.
 wc and nl - To count words/lines in a file.
 grep - It allows you to search files for characters that match a certain pattern.
 
-Advanced Text-Fu:
+*Advanced Text-Fu:*
 regex (Regular Expressions) - Beginning of a line with ^ OR  End of a line with $ OR Matching any single character with . OR Bracket notation with []
 Text Editors - Vim and emacs are popular text editors that are installed by default on most Linux distributions and they both have their pros and cons:
    Vim commands:
@@ -48,7 +48,7 @@ Text Editors - Vim and emacs are popular text editors that are installed by defa
     Ctrl-r - redo your last action
 
 
-User Management:
+*User Management:*
 -sudo command - There is a file called the /etc/sudoers file, this file lists users who can run sudo
 -Usernames aren't really identifications for users. The system uses a user ID (UID) to identify a user.
 -To find out what users are mapped to what ID, look at the /etc/passwd file.
@@ -59,7 +59,7 @@ User Management:
  The commands are: sudo useradd bob / sudo userdel bob / passwd bob
 -Switch to the New User: After creating the new user, you need to switch to that user account. You can do this using the su (switch user) command followed by the username.
 
-Permissions:
+*Permissions:*
 r: readable
 w: writable
 x: executable (basically an executable program)
@@ -74,6 +74,100 @@ This command will set the owner of myfile to patty.
 
 $ sudo chgrp whales myfile
 This command will set the group of myfile to whales. 
+
+-If you ever wanted to change that default set of permissions, you can do so with the umask command
+-SetUID and SetGID permissions:
+Modifying SUID: $ sudo chmod u+s myfile
+Modifying SGID: $ sudo chmod g+s myfile
+
+-The Sticky Bit
+One last special permission bit I want to talk about is the sticky bit.
+This permission bit, "sticks a file/directory" this means that only the owner or the root user can delete or modify the file.
+You'll see a special permission bit at the end here "t", this means everyone can add files, write files, modify files in the /tmp directory, but only root can delete the /tmp directory.
+
+
+*Processes:*
+-ps (Processes)
+Processes are the programs that are running on your machine. 
+A process is a running program on the system, more precisely it's the system allocating memory, CPU, I/O to make the program run.
+They are managed by the kernel and each process has an ID associated with it called the process ID (PID). 
+This PID is assigned in the order that processes are created.
+- ps aux - The a displays all processes running, including the ones being ran by other users. 
+           The u shows more details about the processes. 
+           And finally the x lists all processes that don't have a TTY associated with it, these programs will show a ? in the TTY field, they are most common in daemon processes that launch as part of the system startup.
+
+-USER: The effective user (the one whose access we are using)
+-PID: Process ID
+-%CPU: CPU time used divided by the time the process has been running
+-%MEM: Ratio of the process's resident set size to the physical memory on the machine
+-VSZ: Virtual memory usage of the entire process
+-RSS: Resident set size, the non-swapped physical memory that a task has used
+-TTY: Controlling terminal associated with the process
+-STAT: Process status code
+-START: Start time of the process
+-TIME: Total CPU usage time
+-COMMAND: Name of executable/command
+
+-top - Another very useful command is the top command, top gives you real time information about the processes running on your system instead of a snapshot.
+       By default you'll get a refresh every 10 seconds.
+       Top is an extremely useful tool to see what processes are taking up a lot of your resources.
+
+-Process creation - When a new process is created, an existing process basically clones itself using something called the fork system call (system calls will be discussed very far into the future).
+                   The fork system call creates a mostly identical child process, this child process takes on a new process ID (PID) and the original process becomes its parent process and has something called a parent process ID PPID.
+                   Afterwards, the child process can either continue to use the same program its parent was using before or more often use the execve system call to launch up a new program.
+                   This system call destroys the memory management that the kernel put into place for that process and sets up new ones for the new program.
+
+-Process Termination - A process can exit using the _exit system call, this will free up the resources that process was using for reallocation.
+                      So when a process is ready to terminate, it lets the kernel know why it's terminating with something called a termination status.
+                      Most commonly a status of 0 means that the process succeeded. However, that's not enough to completely terminate a process.
+                      The parent process has to acknowledge the termination of the child process by using the wait system call and what this does is it checks the termination status of the child process.
+                      I know it's gruesome to think about, but the wait call is a necessity, after all what parent wouldn't want to know how their child died?
+
+
+-Signals - A signal is a notification to a process that something has happened.
+Common signals - Each signal is defined by integers with symbolic names that are in the form of SIGxxx. Some of the most common signals are:
+
+SIGHUP or HUP or 1: Hangup
+SIGINT or INT or 2: Interrupt
+SIGKILL or KILL or 9: Kill
+SIGSEGV or SEGV or 11: Segmentation fault
+SIGTERM or TERM or 15: Software termination
+SIGSTOP or STOP: Stop
+Numbers can vary with signals so they are usually referred by their names.
+
+Some signals are unblockable, one example is the SIGKILL signal. The KILL signal destroys the process.
+
+
+Differences between SIGHUP, SIGINT, SIGTERM, SIGKILL, SIGSTOP?
+
+These signals all sound reasonably similar, but they do have their differences.
+
+SIGHUP - Hangup, sent to a process when the controlling terminal is closed. For example, if you closed a terminal window that had a process running in it, you would get a SIGHUP signal. So basically you've been hung up on
+SIGINT - Is an interrupt signal, so you can use Ctrl-C and the system will try to gracefully kill the process
+SIGTERM - Kill the process, but allow it to do some cleanup first
+SIGKILL - Kill the process, kill it with fire, doesn't do any cleanup
+SIGSTOP - Stop/suspend a process
+
+
+-niceness  - nice / renice commands are used to used to set priority on an existing process.
+
+-Process States:
+In the STAT column, you'll see lots of values. A linux process can be in a number of different states. The most common state codes you'll see are described below:
+
+R: running or runnable, it is just waiting for the CPU to process it
+S: Interruptible sleep, waiting for an event to complete, such as input from the terminal
+D: Uninterruptible sleep, processes that cannot be killed or interrupted with a signal, usually to make them go away you have to reboot or fix the issue
+Z: Zombie, we discussed in a previous lesson that zombies are terminated processes that are waiting to have their statuses collected
+T: Stopped, a process that has been suspended/stopped
+
+/proc filesystem - Remember everything in Linux is a file, even processes. Process information is stored in a special filesystem known as the /proc filesystem.
+                 - In order to check that file: ls /proc AND cat /proc/{{PID}}/status
+
+Job Control - Appending an ampersand (&) to the command will run it in the background so you can still use your shell.
+              "jobs" command shows the jobs in the background
+
+
+
 
 
 
