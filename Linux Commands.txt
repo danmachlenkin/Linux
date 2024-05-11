@@ -167,6 +167,61 @@ Job Control - Appending an ampersand (&) to the command will run it in the backg
               "jobs" command shows the jobs in the background
 
 
+*Packages:*
+Compressing files with gzip - gzip is program used to compress files in Linux, they end in a .gz extension.
+
+To compress a file down:
+$ gzip mycoolfile
+
+To decompress the file:
+$ gunzip mycoolfile.gz
+
+Creating archives with tar:
+Unfortunately, gzip can't add multiple files into one archive for us. Luckily we have the tar program which does. 
+When you create an archive using tar, it will have a .tar extension.
+
+$ tar cvf mytarfile.tar mycoolfile1 mycoolfile2
+
+To extract the contents of a tar file, use:
+
+$ tar xvf mytarfile.tar
+
+Install a package:
+
+Debian: $ dpkg -i some_deb_package.deb / $ dpkg -r some_deb_package.deb / dpkg -l
+
+RPM: $ rpm -i some_rpm_package.rpm / $ rpm -e some_rpm_package.rpm / rpm -qa
+
+yum and apt - installing packages including dependencies. 
+Yum is exclusive to the Red Hat family and apt is exclusively to the Debian family.
+
+Debian: $ apt install package_name / apt remove package_name / apt update; apt upgrade / apt show package_name
+
+RPM: $ yum install package_name / yum install package_name / yum update / yum info package_name
+
+
+*Devices:*
+-device files are generally stored in the /dev directory.
+
+-Device files are denoted as the following:
+
+c - character
+b - block
+p - pipe
+s - socket
+
+-The /sys filesystem basically contains all the information for all devices on your system
+
+-The dd tool is super useful for converting and copying data. It reads input from a file or data stream and writes it to a file or data stream.
+
+Consider the following command:
+
+$ dd if=/home/pete/backup.img of=/dev/sdb bs=1024 
+
+
+
+
+
 
 
 
